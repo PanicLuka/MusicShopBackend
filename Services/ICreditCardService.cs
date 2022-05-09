@@ -1,5 +1,6 @@
-﻿using MusicShopBackend.Models;
-using System.Collections.Generic;
+﻿using MusicShopBackend.Entities;
+using MusicShopBackend.Helpers;
+using MusicShopBackend.Models;
 using System.Threading.Tasks;
 
 namespace MusicShopBackend.Services
@@ -8,7 +9,7 @@ namespace MusicShopBackend.Services
     {
         Task CreateCreditCardAsync(CreditCardDto creditCardDto);
 
-        Task<List<CreditCardDto>> GetAllCreditCardsAsync();
+        Task<PagedList<CreditCardDto>> GetAllCreditCardsAsync(CreditCardParameters parameters);
 
         Task<CreditCardDto> GetCreditCardByIdAysnc(int creditCardId);
 

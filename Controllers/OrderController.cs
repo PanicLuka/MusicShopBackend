@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MusicShopBackend.Helpers;
 using MusicShopBackend.Models;
 using MusicShopBackend.Services;
 using System;
@@ -24,11 +25,19 @@ namespace MusicShopBackend.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<ActionResult<List<OrderDto>>> GetAllOrdersAsync()
+        public async Task<ActionResult<List<OrderDto>>> GetAllOrdersAsync([FromQuery] OrderParameters parameters)
         {
-            var orderDtos = await _orderService.GetAllOrdersAsync();
+            try
+            {
+                var orderDtos = await _orderService.GetAllOrdersAsync(parameters);
 
-            return Ok(orderDtos);
+                return Ok(orderDtos);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status204NoContent, e.Message);
+
+            }
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -36,9 +45,17 @@ namespace MusicShopBackend.Controllers
         [HttpGet("{orderId}")]
         public async Task<ActionResult<OrderDto>> GetOrderByIdAsync(int orderId)
         {
-            var orderDto = await _orderService.GetOrderByIdAysnc(orderId);
+            try
+            {
+                var orderDto = await _orderService.GetOrderByIdAysnc(orderId);
 
-            return Ok(orderDto);
+                return Ok(orderDto);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, e.Message);
+
+            }
         }
 
         [HttpPost]
@@ -107,7 +124,7 @@ namespace MusicShopBackend.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+                return StatusCode(StatusCodes.Status404NotFound, e.Message);
 
             }
         }

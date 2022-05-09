@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
-using FluentValidation.Validators;
 using Microsoft.EntityFrameworkCore;
 using MusicShopBackend.Entities;
 using MusicShopBackend.Helpers;
 using MusicShopBackend.Models;
 using MusicShopBackend.Validators;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -16,11 +16,17 @@ namespace MusicShopBackend.Services
     {
         private readonly DataContext _context;
         private readonly CreditCardValidator _validator;
+        private static int _count;
 
         public CreditCardService(DataContext context, CreditCardValidator validator)
         {
             _context = context;
             _validator = validator;
+        }
+
+        public int GetCreditCardsCount()
+        {
+            return _count;
         }
 
         public async Task CreateCreditCardAsync(CreditCardDto creditCardDto)
@@ -48,9 +54,12 @@ namespace MusicShopBackend.Services
             await SaveChangesAsync();
         }
 
-        public async Task<List<CreditCardDto>> GetAllCreditCardsAsync()
+        public async Task<PagedList<CreditCardDto>> GetAllCreditCardsAsync(CreditCardParameters parameters)
         {
             var creditCards = await _context.CreditCards.ToListAsync();
+
+            _count = creditCards.Count;
+
             if (creditCards == null || creditCards.Count == 0)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
@@ -63,7 +72,9 @@ namespace MusicShopBackend.Services
                 creditCardDtos.Add(creditCardDto);
             }
 
-            return creditCardDtos;
+            IQueryable<CreditCardDto> queryable = creditCardDtos.AsQueryable();
+
+            return PagedList<CreditCardDto>.ToPagedList(queryable, parameters._pageNumber, parameters.PageSize);
 
         }
 

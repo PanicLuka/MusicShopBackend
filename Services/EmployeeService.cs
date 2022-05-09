@@ -5,6 +5,7 @@ using MusicShopBackend.Helpers;
 using MusicShopBackend.Models;
 using MusicShopBackend.Validators;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -15,13 +16,16 @@ namespace MusicShopBackend.Services
     {
         private readonly DataContext _context;
         private readonly EmployeeValidator _validator;
-
+        private static int _count;
         public EmployeeService(DataContext context, EmployeeValidator validator)
         {
             _context = context;
             _validator = validator;
         }
-
+        public int GetEmployeesCount()
+        {
+            return _count;
+        }
         public async Task CreateEmployeeAsync(EmployeeDto employeeDto)
         {
             _validator.ValidateAndThrow(employeeDto);
@@ -47,9 +51,12 @@ namespace MusicShopBackend.Services
             await SaveChangesAsync();
         }
 
-        public async Task<List<EmployeeDto>> GetAllEmployeesAsync()
+        public async Task<PagedList<EmployeeDto>> GetAllEmployeesAsync(EmployeeParameters parameters) 
         {
             var employees = await _context.Employees.ToListAsync();
+
+            _count = employees.Count;
+
             if (employees == null || employees.Count == 0)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
@@ -62,7 +69,9 @@ namespace MusicShopBackend.Services
                 employeeDtos.Add(employeeDto);
             }
 
-            return employeeDtos;
+            IQueryable<EmployeeDto> queryable = employeeDtos.AsQueryable();
+
+            return PagedList<EmployeeDto>.ToPagedList(queryable, parameters._pageNumber, parameters.PageSize);
 
         }
 

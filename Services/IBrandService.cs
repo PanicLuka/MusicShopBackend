@@ -1,4 +1,7 @@
-﻿using MusicShopBackend.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using MusicShopBackend.Entities;
+using MusicShopBackend.Helpers;
+using MusicShopBackend.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,8 +11,9 @@ namespace MusicShopBackend.Services
     {
         Task CreateBrandAsync(BrandDto brandDto);
 
-        Task<List<BrandDto>> GetAllBrandsAsync();
+        Task<PagedList<BrandDto>> GetAllBrandsAsync(BrandParameters parameters);
 
+        //Task<PagedList<BrandDto>> GetBrandsByName(string brandName);
         Task<BrandDto> GetBrandByIdAysnc(int brandId);
 
         Task<BrandDto> UpdateBrandAsync(int brandId, BrandDto brandDto);

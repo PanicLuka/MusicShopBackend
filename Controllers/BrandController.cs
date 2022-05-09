@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MusicShopBackend.Helpers;
 using MusicShopBackend.Models;
 using MusicShopBackend.Services;
-using MusicShopBackend.Validators;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -25,11 +25,19 @@ namespace MusicShopBackend.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<ActionResult<List<BrandDto>>> GetAllBrandsAsync()
+        public async Task<ActionResult<List<BrandDto>>> GetAllBrandsAsync([FromQuery] BrandParameters parameters)
         {
-            var brandDtos = await _brandService.GetAllBrandsAsync();
+            try
+            {
+                var brandDtos = await _brandService.GetAllBrandsAsync(parameters);
 
-            return Ok(brandDtos);
+                return Ok(brandDtos);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status204NoContent, e.Message);
+
+            }
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -37,9 +45,17 @@ namespace MusicShopBackend.Controllers
         [HttpGet("{brandId}")]
         public async Task<ActionResult<BrandDto>> GetBrandByIdAsync(int brandId)
         {
-            var brandDto = await _brandService.GetBrandByIdAysnc(brandId);
+            try
+            {
+                var brandDto = await _brandService.GetBrandByIdAysnc(brandId);
 
-            return Ok(brandDto);
+                return Ok(brandDto);
+            }
+            catch(Exception e)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, e.Message);
+
+            }
         }
 
         [HttpPost]
@@ -110,7 +126,7 @@ namespace MusicShopBackend.Controllers
             }
             catch(Exception e)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+                return StatusCode(StatusCodes.Status404NotFound, e.Message);
 
             }
         }

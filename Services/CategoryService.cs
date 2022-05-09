@@ -5,6 +5,7 @@ using MusicShopBackend.Helpers;
 using MusicShopBackend.Models;
 using MusicShopBackend.Validators;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -15,12 +16,17 @@ namespace MusicShopBackend.Services
     {
         private readonly DataContext _context;
         private readonly CategoryValidator _validator;
+        private static int _count;
         public CategoryService(DataContext context, CategoryValidator validator)
         {
             _context = context;
             _validator = validator;
         }
 
+        public int GetCategoriesCountAsync()
+        {
+            return _count;
+        }
         public async Task CreateCategoryAsync(CategoryDto categoryDto)
         {
             _validator.ValidateAndThrow(categoryDto);
@@ -46,9 +52,12 @@ namespace MusicShopBackend.Services
             await SaveChangesAsync();
         }
 
-        public async Task<List<CategoryDto>> GetAllCategoriesAsync()
+        public async Task<PagedList<CategoryDto>> GetAllCategoriesAsync(CategoryParameters parameters)
         {
             var categories = await _context.Categories.ToListAsync();
+
+            _count = categories.Count;
+
             if (categories == null || categories.Count == 0)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
@@ -61,8 +70,9 @@ namespace MusicShopBackend.Services
                 categoryDtos.Add(categoryDto);
             }
 
-            return categoryDtos;
+            IQueryable<CategoryDto> queryable = categoryDtos.AsQueryable();
 
+            return PagedList<CategoryDto>.ToPagedList(queryable, parameters._pageNumber, parameters.PageSize);
         }
 
         public async Task<CategoryDto> GetCategoryByIdAysnc(int categoryId)
@@ -116,6 +126,6 @@ namespace MusicShopBackend.Services
             return category;
         }
 
-        
+
     }
 }

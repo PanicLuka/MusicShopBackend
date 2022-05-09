@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MusicShopBackend.Helpers;
 using MusicShopBackend.Models;
 using MusicShopBackend.Services;
 using System;
@@ -24,11 +25,19 @@ namespace MusicShopBackend.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<ActionResult<List<CategoryDto>>> GetAllCategoriesAsync()
+        public async Task<ActionResult<List<CategoryDto>>> GetAllCategoriesAsync([FromQuery] CategoryParameters parameters)
         {
-            var categoryDtos = await _categoryService.GetAllCategoriesAsync();
+            try
+            {
+                var categoryDtos = await _categoryService.GetAllCategoriesAsync(parameters);
 
-            return Ok(categoryDtos);
+                return Ok(categoryDtos);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status204NoContent, e.Message);
+
+            }
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -36,9 +45,17 @@ namespace MusicShopBackend.Controllers
         [HttpGet("{categoryId}")]
         public async Task<ActionResult<CategoryDto>> GetCategoryByIdAsync(int categoryId)
         {
-            var categoryDto = await _categoryService.GetCategoryByIdAysnc(categoryId);
+            try
+            {
+                var categoryDto = await _categoryService.GetCategoryByIdAysnc(categoryId);
 
-            return Ok(categoryDto);
+                return Ok(categoryDto);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, e.Message);
+
+            }
         }
 
         [HttpPost]
@@ -107,7 +124,7 @@ namespace MusicShopBackend.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+                return StatusCode(StatusCodes.Status404NotFound, e.Message);
 
             }
         }

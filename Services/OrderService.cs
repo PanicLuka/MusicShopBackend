@@ -5,6 +5,7 @@ using MusicShopBackend.Helpers;
 using MusicShopBackend.Models;
 using MusicShopBackend.Validators;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -15,11 +16,16 @@ namespace MusicShopBackend.Services
     {
         private readonly DataContext _context;
         private readonly OrderValidator _validator;
-        
+        private static int _count;
+
         public OrderService(DataContext context, OrderValidator validator)
         {
             _context = context;
             _validator = validator;
+        }
+        public int GetOrdersCount()
+        {
+            return _count;
         }
 
         public async Task CreateOrderAsync(OrderDto orderDto)
@@ -47,9 +53,12 @@ namespace MusicShopBackend.Services
             await SaveChangesAsync();
         }
 
-        public async Task<List<OrderDto>> GetAllOrdersAsync()
+        public async Task<PagedList<OrderDto>> GetAllOrdersAsync(OrderParameters parameters)
         {
             var orders = await _context.Orders.ToListAsync();
+
+            _count = orders.Count;
+
             if (orders == null || orders.Count == 0)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
@@ -62,8 +71,9 @@ namespace MusicShopBackend.Services
                 orderDtos.Add(orderDto);
             }
 
-            return orderDtos;
+            IQueryable<OrderDto> queryable = orderDtos.AsQueryable();
 
+            return PagedList<OrderDto>.ToPagedList(queryable, parameters._pageNumber, parameters.PageSize);
         }
 
         public async Task<OrderDto> GetOrderByIdAysnc(int orderId)

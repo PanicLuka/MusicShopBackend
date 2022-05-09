@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MusicShopBackend.Helpers;
 using MusicShopBackend.Models;
 using MusicShopBackend.Services;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MusicShopBackend.Controllers
@@ -25,11 +25,20 @@ namespace MusicShopBackend.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<ActionResult<List<DestinationAddressDto>>> GetAllDestinationAddressesAsync()
+        public async Task<ActionResult<List<DestinationAddressDto>>> GetAllDestinationAddressesAsync([FromQuery] DestinationAddressParameters parameters)
         {
-            var destinationAddressDtos = await _destinationAddressService.GetAllDestinationAddressesAsync();
+            try
+            {
+                var destinationAddressDtos = await _destinationAddressService.GetAllDestinationAddressesAsync(parameters);
 
-            return Ok(destinationAddressDtos);
+                return Ok(destinationAddressDtos);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status204NoContent, e.Message);
+
+            }
+
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -37,9 +46,17 @@ namespace MusicShopBackend.Controllers
         [HttpGet("{destinationAddressId}")]
         public async Task<ActionResult<DestinationAddressDto>> GetDestinationAddressByIdAsync(int destinationAddressId)
         {
-            var destinationAddressDto = await _destinationAddressService.GetDestinationAddressByIdAysnc(destinationAddressId);
+            try
+            {
+                var destinationAddressDto = await _destinationAddressService.GetDestinationAddressByIdAysnc(destinationAddressId);
 
-            return Ok(destinationAddressDto);
+                return Ok(destinationAddressDto);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, e.Message);
+
+            }
         }
 
         [HttpPost]
@@ -108,7 +125,7 @@ namespace MusicShopBackend.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+                return StatusCode(StatusCodes.Status404NotFound, e.Message);
 
             }
         }

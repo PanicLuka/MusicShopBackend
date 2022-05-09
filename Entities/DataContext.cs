@@ -7,7 +7,7 @@ namespace MusicShopBackend.Entities
     public class DataContext : DbContext
     {
         private readonly IConfiguration _configuration;
-        
+
         public DataContext(DbContextOptions<DataContext> options, IConfiguration configuration) : base(options)
         {
             _configuration = configuration;
@@ -103,12 +103,12 @@ namespace MusicShopBackend.Entities
                     City = "Novi Sad",
                     RoleId = 2
                 });
-            
+
 
             modelBuilder.Entity<User>()
                .HasData(new
                {
-                   UserId  = 1,
+                   UserId = 1,
                    FirstName = "Marko",
                    LastName = "Milic",
                    Email = "Marko@gmail.com",
@@ -150,7 +150,7 @@ namespace MusicShopBackend.Entities
                     OrderQuantity = 34
                 });
 
-            
+
         }
     }
 }

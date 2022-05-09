@@ -1,5 +1,6 @@
-﻿using MusicShopBackend.Models;
-using System.Collections.Generic;
+﻿using MusicShopBackend.Entities;
+using MusicShopBackend.Helpers;
+using MusicShopBackend.Models;
 using System.Threading.Tasks;
 
 namespace MusicShopBackend.Services
@@ -8,7 +9,7 @@ namespace MusicShopBackend.Services
     {
         Task CreateProductAsync(ProductDto productDto);
 
-        Task<List<ProductDto>> GetAllProductsAsync();
+        Task<PagedList<ProductDto>> GetAllProductsAsync(ProductParameters parameters);
 
         Task<ProductDto> GetProductByIdAysnc(int productId);
 

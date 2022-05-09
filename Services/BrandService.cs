@@ -5,6 +5,7 @@ using MusicShopBackend.Helpers;
 using MusicShopBackend.Models;
 using MusicShopBackend.Validators;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -15,33 +16,38 @@ namespace MusicShopBackend.Services
     {
         private readonly DataContext _context;
         private readonly BrandValidator _validator;
+        private static int _count;
         public BrandService(DataContext context, BrandValidator validator)
         {
             _context = context;
             _validator = validator;
         }
 
+        public int GetBrandsCountAsync()
+        {
+            return _count;
+        }
         public async Task CreateBrandAsync(BrandDto brandDto)
         {
-           
-                _validator.ValidateAndThrow(brandDto);
 
-                Brand brandEntity = brandDto.BrandDtoToBrand();
+            _validator.ValidateAndThrow(brandDto);
+
+            Brand brandEntity = brandDto.BrandDtoToBrand();
 
 
-                await _context.AddAsync(brandEntity);
+            await _context.AddAsync(brandEntity);
 
-                await SaveChangesAsync();
-            
-         
+            await SaveChangesAsync();
+
+
         }
 
-        
+
         public async Task DeleteBrandAsync(int brandId)
         {
-            var brand =  await GetBrandByIdHelperAsync(brandId);
+            var brand = await GetBrandByIdHelperAsync(brandId);
 
-            if(brand == null)
+            if (brand == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
@@ -50,40 +56,58 @@ namespace MusicShopBackend.Services
             await SaveChangesAsync();
         }
 
-        public async Task<List<BrandDto>> GetAllBrandsAsync()
+        public async Task<PagedList<BrandDto>> GetAllBrandsAsync(BrandParameters parameters)
         {
             var brands = await _context.Brands.ToListAsync();
-            if(brands == null || brands.Count == 0)
+            _count = brands.Count;
+
+            if (brands == null || brands.Count == 0)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                throw new HttpResponseException(HttpStatusCode.NoContent);
             }
             List<BrandDto> brandDtos = new List<BrandDto>();
 
-            foreach(var brand in brands)
+            foreach (var brand in brands)
             {
                 BrandDto brandDto = brand.BrandToDto();
                 brandDtos.Add(brandDto);
             }
 
-            return brandDtos;
+            IQueryable<BrandDto> queryable = brandDtos.AsQueryable();
+
+            return PagedList<BrandDto>.ToPagedList(queryable, parameters._pageNumber, parameters.PageSize);
 
         }
-
+        //public async Task<PagedList<BrandDto>> GetBrandsByName(string brandName)
+        //{
+        //    var brand = await _context.Brands.FirstOrDefaultAsync(e => e.BrandName == brandName);
+        //    if (brand == null)
+        //    {
+        //        throw new HttpResponseException(HttpStatusCode.NotFound);
+        //    }
+        //    var brandDto = brand.BrandToDto();
+        //    return brandDto;
+        //}
         public async Task<BrandDto> GetBrandByIdAysnc(int brandId)
         {
+
             var brand = await _context.Brands.FirstOrDefaultAsync(e => e.BrandId == brandId);
-            if(brand == null)
+            if (brand == null)
             {
+
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
             var brandDto = brand.BrandToDto();
             return brandDto;
+
+
+
         }
 
         public async Task<BrandDto> UpdateBrandAsync(int brandId, BrandDto brandDto)
         {
             var oldBrandDto = await GetBrandByIdHelperAsync(brandId);
-            if(oldBrandDto == null)
+            if (oldBrandDto == null)
             {
                 await CreateBrandAsync(brandDto);
                 return oldBrandDto.BrandToDto();
@@ -94,7 +118,7 @@ namespace MusicShopBackend.Services
                 oldBrandDto.BrandName = brand.BrandName;
 
                 await SaveChangesAsync();
-                if(oldBrandDto.BrandToDto() == null)
+                if (oldBrandDto.BrandToDto() == null)
                 {
                     throw new HttpResponseException(HttpStatusCode.NotFound);
 
@@ -119,6 +143,6 @@ namespace MusicShopBackend.Services
             return brand;
         }
 
-        
+
     }
 }

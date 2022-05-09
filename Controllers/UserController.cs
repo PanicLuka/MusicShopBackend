@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MusicShopBackend.Helpers;
 using MusicShopBackend.Models;
 using MusicShopBackend.Services;
 using System;
@@ -27,11 +28,19 @@ namespace MusicShopBackend.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<ActionResult<List<UserDto>>> GetAllUsersAsync()
+        public async Task<ActionResult<List<UserDto>>> GetAllUsersAsync([FromQuery] UserParameters parameters)
         {
-            var userDtos = await _userService.GetAllUsersAsync();
+            try
+            {
+                var userDtos = await _userService.GetAllUsersAsync(parameters);
 
-            return Ok(userDtos);
+                return Ok(userDtos);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status204NoContent, e.Message);
+
+            }
         }
 
         //[Authorize(Roles = "Admin, Employee")]
@@ -40,9 +49,17 @@ namespace MusicShopBackend.Controllers
         [HttpGet("{userId}")]
         public async Task<ActionResult<UserDto>> GetUserByIdAsync(int userId)
         {
-            var userDto = await _userService.GetUserByIdAysnc(userId);
+            try
+            {
+                var userDto = await _userService.GetUserByIdAysnc(userId);
 
-            return Ok(userDto);
+                return Ok(userDto);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, e.Message);
+
+            }
         }
 
         [HttpPost]
@@ -113,7 +130,7 @@ namespace MusicShopBackend.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+                return StatusCode(StatusCodes.Status404NotFound, e.Message);
 
             }
         }

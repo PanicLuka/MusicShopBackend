@@ -18,11 +18,17 @@ namespace MusicShopBackend.Services
     {
         private readonly DataContext _context;
         private readonly UserValidator _validator;
+        private static int _count;
 
         public UserService(DataContext context, UserValidator validator)
         {
             _context = context;
             _validator = validator;
+        }
+
+        public int GetUsersCount()
+        {
+            return _count;
         }
 
         public async Task CreateUserAsync(UserDto userDto)
@@ -52,9 +58,12 @@ namespace MusicShopBackend.Services
             await SaveChangesAsync();
         }
 
-        public async Task<List<UserDto>> GetAllUsersAsync()
+        public async Task<PagedList<UserDto>> GetAllUsersAsync(UserParameters parameters)
         {
             var users = await _context.Users.ToListAsync();
+
+            _count = users.Count;
+
             if (users == null || users.Count == 0)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
@@ -67,8 +76,9 @@ namespace MusicShopBackend.Services
                 userDtos.Add(userDto);
             }
 
-            return userDtos;
+            IQueryable<UserDto> queryable = userDtos.AsQueryable();
 
+            return PagedList<UserDto>.ToPagedList(queryable, parameters._pageNumber, parameters.PageSize);
         }
 
         public async Task<UserDto> GetUserByIdAysnc(int userId)
@@ -97,7 +107,7 @@ namespace MusicShopBackend.Services
                 oldUserDto.LastName = user.LastName;
                 oldUserDto.Email = user.Email;
                 oldUserDto.Password = user.Password;
-                
+
 
 
                 await SaveChangesAsync();
@@ -126,9 +136,9 @@ namespace MusicShopBackend.Services
             return user;
         }
 
-        public  int GetRoleIdByEmail(string email)
+        public int GetRoleIdByEmail(string email)
         {
-            var user =  _context.Users.FirstOrDefault(e => e.Email == email);
+            var user = _context.Users.FirstOrDefault(e => e.Email == email);
 
             if (user == null)
             {

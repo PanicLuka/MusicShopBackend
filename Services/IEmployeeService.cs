@@ -1,7 +1,6 @@
-﻿using MusicShopBackend.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using MusicShopBackend.Entities;
+using MusicShopBackend.Helpers;
+using MusicShopBackend.Models;
 using System.Threading.Tasks;
 
 namespace MusicShopBackend.Services
@@ -10,7 +9,7 @@ namespace MusicShopBackend.Services
     {
         Task CreateEmployeeAsync(EmployeeDto employeeDto);
 
-        Task<List<EmployeeDto>> GetAllEmployeesAsync();
+        Task<PagedList<EmployeeDto>> GetAllEmployeesAsync(EmployeeParameters parameteres);
 
         Task<EmployeeDto> GetEmployeeByIdAysnc(int employeeId);
 

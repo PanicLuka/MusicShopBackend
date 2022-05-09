@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MusicShopBackend.Helpers;
 using MusicShopBackend.Models;
 using MusicShopBackend.Services;
 using System;
@@ -26,11 +27,19 @@ namespace MusicShopBackend.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<ActionResult<List<ProductDto>>> GetAllProductsAsync()
+        public async Task<ActionResult<List<ProductDto>>> GetAllProductsAsync([FromQuery] ProductParameters parameters)
         {
-            var productDtos = await _productService.GetAllProductsAsync();
+            try
+            {
+                var productDtos = await _productService.GetAllProductsAsync(parameters);
 
-            return Ok(productDtos);
+                return Ok(productDtos);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status204NoContent, e.Message);
+
+            }
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -38,9 +47,17 @@ namespace MusicShopBackend.Controllers
         [HttpGet("{productId}")]
         public async Task<ActionResult<ProductDto>> GetProductByIdAsync(int productId)
         {
-            var productDto = await _productService.GetProductByIdAysnc(productId);
+            try
+            {
+                var productDto = await _productService.GetProductByIdAysnc(productId);
 
-            return Ok(productDto);
+                return Ok(productDto);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, e.Message);
+
+            }
         }
 
         [HttpPost]
@@ -109,7 +126,7 @@ namespace MusicShopBackend.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+                return StatusCode(StatusCodes.Status404NotFound, e.Message);
 
             }
         }

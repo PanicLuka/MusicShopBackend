@@ -1,7 +1,6 @@
-﻿using MusicShopBackend.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using MusicShopBackend.Entities;
+using MusicShopBackend.Helpers;
+using MusicShopBackend.Models;
 using System.Threading.Tasks;
 
 namespace MusicShopBackend.Services
@@ -10,7 +9,7 @@ namespace MusicShopBackend.Services
     {
         Task CreateUserAsync(UserDto userDto);
 
-        Task<List<UserDto>> GetAllUsersAsync();
+        Task<PagedList<UserDto>> GetAllUsersAsync(UserParameters parameters);
 
         Task<UserDto> GetUserByIdAysnc(int userId);
 

@@ -1,5 +1,6 @@
-﻿using MusicShopBackend.Models;
-using System.Collections.Generic;
+﻿using MusicShopBackend.Entities;
+using MusicShopBackend.Helpers;
+using MusicShopBackend.Models;
 using System.Threading.Tasks;
 
 namespace MusicShopBackend.Services
@@ -8,7 +9,7 @@ namespace MusicShopBackend.Services
     {
         Task CreateCategoryAsync(CategoryDto categoryDto);
 
-        Task<List<CategoryDto>> GetAllCategoriesAsync();
+        Task<PagedList<CategoryDto>> GetAllCategoriesAsync(CategoryParameters parameteres);
 
         Task<CategoryDto> GetCategoryByIdAysnc(int categoryId);
 

@@ -16,8 +16,8 @@ namespace MusicShopBackend.Services
         private readonly IUserService _userService;
         private readonly IRoleService _roleService;
         private readonly IConfiguration _configuration;
-         
-        public AuthenticateService(IUserService userService, IConfiguration  configuration, IRoleService roleService)
+
+        public AuthenticateService(IUserService userService, IConfiguration configuration, IRoleService roleService)
         {
             _userService = userService;
             _configuration = configuration;
@@ -30,7 +30,7 @@ namespace MusicShopBackend.Services
             var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:JWTkey"]));
             var signingCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
             int roleId = _userService.GetRoleIdByEmail(user.Email);
-            string roleName =  _roleService.GetRoleByRoleId(roleId);
+            string roleName = _roleService.GetRoleByRoleId(roleId);
 
             List<Claim> claims = new List<Claim>
             {

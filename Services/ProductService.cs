@@ -5,6 +5,7 @@ using MusicShopBackend.Helpers;
 using MusicShopBackend.Models;
 using MusicShopBackend.Validators;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -15,6 +16,7 @@ namespace MusicShopBackend.Services
     {
         private readonly DataContext _context;
         private readonly ProductValidator _validator;
+        private static int _count;
 
         public ProductService(DataContext context, ProductValidator validator)
         {
@@ -22,6 +24,10 @@ namespace MusicShopBackend.Services
             _validator = validator;
         }
 
+        public int GetProductsCount()
+        {
+            return _count;
+        }
         public async Task CreateProductAsync(ProductDto productDto)
         {
             _validator.ValidateAndThrow(productDto);
@@ -47,9 +53,12 @@ namespace MusicShopBackend.Services
             await SaveChangesAsync();
         }
 
-        public async Task<List<ProductDto>> GetAllProductsAsync()
+        public async Task<PagedList<ProductDto>> GetAllProductsAsync(ProductParameters parameters)
         {
             var products = await _context.Products.ToListAsync();
+
+            _count = products.Count;
+
             if (products == null || products.Count == 0)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
@@ -62,8 +71,9 @@ namespace MusicShopBackend.Services
                 productDtos.Add(productDto);
             }
 
-            return productDtos;
+            IQueryable<ProductDto> queryable = productDtos.AsQueryable();
 
+            return PagedList<ProductDto>.ToPagedList(queryable, parameters._pageNumber, parameters.PageSize);
         }
 
         public async Task<ProductDto> GetProductByIdAysnc(int productId)

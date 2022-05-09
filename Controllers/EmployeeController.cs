@@ -24,11 +24,19 @@ namespace MusicShopBackend.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<ActionResult<List<EmployeeDto>>> GetAllEmployeesAsync()
+        public async Task<ActionResult<List<EmployeeDto>>> GetAllEmployeesAsync([FromQuery] EmployeeParameters parameters)
         {
-            var employeeDtos = await _employeeService.GetAllEmployeesAsync();
+            try
+            {
+                var employeeDtos = await _employeeService.GetAllEmployeesAsync(parameters);
 
-            return Ok(employeeDtos);
+                return Ok(employeeDtos);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status204NoContent, e.Message);
+
+            }
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -36,9 +44,17 @@ namespace MusicShopBackend.Controllers
         [HttpGet("{employeeId}")]
         public async Task<ActionResult<EmployeeDto>> GetEmployeeByIdAsync(int employeeId)
         {
-            var employeeDto = await _employeeService.GetEmployeeByIdAysnc(employeeId);
+            try
+            {
+                var employeeDto = await _employeeService.GetEmployeeByIdAysnc(employeeId);
 
-            return Ok(employeeDto);
+                return Ok(employeeDto);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, e.Message);
+
+            }
         }
 
         [HttpPost]
@@ -107,7 +123,7 @@ namespace MusicShopBackend.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+                return StatusCode(StatusCodes.Status404NotFound, e.Message);
 
             }
         }

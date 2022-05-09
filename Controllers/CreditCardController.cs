@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MusicShopBackend.Helpers;
 using MusicShopBackend.Models;
 using MusicShopBackend.Services;
 using System;
@@ -24,11 +25,19 @@ namespace MusicShopBackend.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<ActionResult<List<CreditCardDto>>> GetAllCreditCardsAsync()
+        public async Task<ActionResult<List<CreditCardDto>>> GetAllCreditCardsAsync([FromQuery] CreditCardParameters parameters)
         {
-            var creditCardDtos = await _creditCardService.GetAllCreditCardsAsync();
+            try
+            {
+                var creditCardDtos = await _creditCardService.GetAllCreditCardsAsync(parameters);
 
-            return Ok(creditCardDtos);
+                return Ok(creditCardDtos);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status204NoContent, e.Message);
+
+            }
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -36,9 +45,17 @@ namespace MusicShopBackend.Controllers
         [HttpGet("{creditCardId}")]
         public async Task<ActionResult<CreditCardDto>> GetCreditCardByIdAsync(int creditCardId)
         {
-            var creditCardDto = await _creditCardService.GetCreditCardByIdAysnc(creditCardId);
+            try
+            {
+                var creditCardDto = await _creditCardService.GetCreditCardByIdAysnc(creditCardId);
 
-            return Ok(creditCardDto);
+                return Ok(creditCardDto);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, e.Message);
+
+            }
         }
 
         [HttpPost]
@@ -107,7 +124,7 @@ namespace MusicShopBackend.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+                return StatusCode(StatusCodes.Status404NotFound, e.Message);
 
             }
         }

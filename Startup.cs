@@ -73,7 +73,7 @@ namespace MusicShopBackend
             services.AddScoped<IAuthenticateService, AuthenticateService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRoleService, RoleService>();
-            
+
 
         }
 

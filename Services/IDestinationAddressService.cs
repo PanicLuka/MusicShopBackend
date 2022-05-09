@@ -1,5 +1,6 @@
-﻿using MusicShopBackend.Models;
-using System.Collections.Generic;
+﻿using MusicShopBackend.Entities;
+using MusicShopBackend.Helpers;
+using MusicShopBackend.Models;
 using System.Threading.Tasks;
 
 namespace MusicShopBackend.Services
@@ -8,7 +9,7 @@ namespace MusicShopBackend.Services
     {
         Task CreateDestinationAddressAsync(DestinationAddressDto destinationAddressDto);
 
-        Task<List<DestinationAddressDto>> GetAllDestinationAddressesAsync();
+        Task<PagedList<DestinationAddressDto>> GetAllDestinationAddressesAsync(DestinationAddressParameters parameters);
 
         Task<DestinationAddressDto> GetDestinationAddressByIdAysnc(int destinationAddressId);
 

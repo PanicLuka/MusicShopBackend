@@ -5,21 +5,21 @@ namespace MusicShopBackend.Helpers
 {
     public static class ManualMapper
     {
-        public static BrandDto BrandToDto(this Brand brand) 
+        public static BrandDto BrandToDto(this Brand brand)
         {
-            if(brand != null)
+            if (brand != null)
             {
                 return new BrandDto
                 {
                     BrandName = brand.BrandName
                 };
-                
+
             }
             return null;
         }
         public static Brand BrandDtoToBrand(this BrandDto brandDto)
         {
-            if(brandDto != null)
+            if (brandDto != null)
             {
                 return new Brand
                 {
@@ -32,7 +32,7 @@ namespace MusicShopBackend.Helpers
 
         public static CategoryDto CategoryToDto(this Category category)
         {
-            if(category != null)
+            if (category != null)
             {
                 return new CategoryDto
                 {
@@ -48,7 +48,7 @@ namespace MusicShopBackend.Helpers
         {
             if (categoryDto != null)
             {
-               return new Category
+                return new Category
                 {
                     CategoryName = categoryDto.CategoryName,
                     CategoryDescription = categoryDto.CategoryDescription
@@ -60,7 +60,7 @@ namespace MusicShopBackend.Helpers
 
         public static CreditCardDto CreditCardToDto(this CreditCard creditCard)
         {
-            if(creditCard != null)
+            if (creditCard != null)
             {
                 return new CreditCardDto
                 {
@@ -90,7 +90,7 @@ namespace MusicShopBackend.Helpers
 
         public static DestinationAddressDto DestinationAddressToDto(this DestinationAddress destinationAddress)
         {
-            if(destinationAddress != null)
+            if (destinationAddress != null)
             {
                 return new DestinationAddressDto
                 {
@@ -122,7 +122,7 @@ namespace MusicShopBackend.Helpers
 
         public static EmployeeDto EmployeeToDto(this Employee employee)
         {
-            if(employee != null)
+            if (employee != null)
             {
                 return new EmployeeDto
                 {
@@ -156,7 +156,7 @@ namespace MusicShopBackend.Helpers
 
         public static OrderDto OrderToDto(this Order order)
         {
-            if(order != null)
+            if (order != null)
             {
                 return new OrderDto
                 {
@@ -193,9 +193,9 @@ namespace MusicShopBackend.Helpers
             return null;
         }
 
-        public static OrderProductDto OrderProductToDto (this OrderProduct orderProduct)
+        public static OrderProductDto OrderProductToDto(this OrderProduct orderProduct)
         {
-            if(orderProduct != null)
+            if (orderProduct != null)
             {
                 return new OrderProductDto
                 {
@@ -223,7 +223,7 @@ namespace MusicShopBackend.Helpers
 
         public static ProductDto ProductToDto(this Product product)
         {
-            if(product != null)
+            if (product != null)
             {
                 return new ProductDto
                 {

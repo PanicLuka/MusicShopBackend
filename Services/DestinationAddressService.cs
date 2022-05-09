@@ -5,6 +5,7 @@ using MusicShopBackend.Helpers;
 using MusicShopBackend.Models;
 using MusicShopBackend.Validators;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -15,11 +16,17 @@ namespace MusicShopBackend.Services
     {
         private readonly DataContext _context;
         private readonly DestinationValidator _validator;
+        private static int _count;
 
         public DestinationAddressService(DataContext context, DestinationValidator validator)
         {
             _context = context;
             _validator = validator;
+        }
+
+        public int GetDestinationsCount()
+        {
+            return _count;
         }
 
         public async Task CreateDestinationAddressAsync(DestinationAddressDto destinationAddressDto)
@@ -47,9 +54,12 @@ namespace MusicShopBackend.Services
             await SaveChangesAsync();
         }
 
-        public async Task<List<DestinationAddressDto>> GetAllDestinationAddressesAsync()
+        public async Task<PagedList<DestinationAddressDto>> GetAllDestinationAddressesAsync(DestinationAddressParameters parameters)
         {
             var destinationAddresss = await _context.DestinationAddresses.ToListAsync();
+
+            _count = destinationAddresss.Count;
+
             if (destinationAddresss == null || destinationAddresss.Count == 0)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
@@ -62,7 +72,9 @@ namespace MusicShopBackend.Services
                 destinationAddressDtos.Add(destinationAddressDto);
             }
 
-            return destinationAddressDtos;
+            IQueryable<DestinationAddressDto> queryable = destinationAddressDtos.AsQueryable();
+
+            return PagedList<DestinationAddressDto>.ToPagedList(queryable, parameters._pageNumber, parameters.PageSize);
 
         }
 
@@ -93,7 +105,7 @@ namespace MusicShopBackend.Services
                 oldDestinationAddressDto.Country = destinationAddress.Country;
                 oldDestinationAddressDto.PhoneNumber = destinationAddress.PhoneNumber;
                 oldDestinationAddressDto.Address = destinationAddress.Address;
-               
+
 
                 await SaveChangesAsync();
                 if (oldDestinationAddressDto.DestinationAddressToDto() == null)

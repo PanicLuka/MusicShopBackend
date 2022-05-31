@@ -93,7 +93,7 @@ namespace MusicShopBackend.Migrations
                             CreditCardId = 1,
                             CreditCardNumber = "124128401",
                             Cvv = 123,
-                            ExpireDate = new DateTime(2022, 5, 8, 19, 20, 20, 148, DateTimeKind.Local).AddTicks(7798)
+                            ExpireDate = new DateTime(2022, 5, 31, 15, 6, 47, 142, DateTimeKind.Local).AddTicks(2579)
                         });
                 });
 
@@ -220,7 +220,7 @@ namespace MusicShopBackend.Migrations
                             CreditCardId = 1,
                             DestinationAddressId = 1,
                             OrderArrival = true,
-                            OrderDate = new DateTime(2022, 5, 8, 19, 20, 20, 157, DateTimeKind.Local).AddTicks(1215),
+                            OrderDate = new DateTime(2022, 5, 31, 15, 6, 47, 146, DateTimeKind.Local).AddTicks(9915),
                             OrderStatus = "Ready",
                             PaymentType = "seedTest",
                             UserId = 1

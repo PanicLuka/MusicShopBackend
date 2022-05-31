@@ -11,6 +11,7 @@ namespace MusicShopBackend.Helpers
             {
                 return new BrandDto
                 {
+                    BrandId = brand.BrandId,
                     BrandName = brand.BrandName
                 };
 
@@ -23,6 +24,7 @@ namespace MusicShopBackend.Helpers
             {
                 return new Brand
                 {
+                    BrandId = brandDto.BrandId,
                     BrandName = brandDto.BrandName
                 };
 
@@ -36,6 +38,7 @@ namespace MusicShopBackend.Helpers
             {
                 return new CategoryDto
                 {
+                    CategoryId = category.CategoryId,
                     CategoryName = category.CategoryName,
                     CategoryDescription = category.CategoryDescription
                 };
@@ -50,6 +53,7 @@ namespace MusicShopBackend.Helpers
             {
                 return new Category
                 {
+                    CategoryId = categoryDto.CategoryId,
                     CategoryName = categoryDto.CategoryName,
                     CategoryDescription = categoryDto.CategoryDescription
                 };
@@ -64,6 +68,7 @@ namespace MusicShopBackend.Helpers
             {
                 return new CreditCardDto
                 {
+                    CreditCardId = creditCard.CreditCardId,
                     CreditCardNumber = creditCard.CreditCardNumber,
                     Cvv = creditCard.Cvv,
                     ExpireDate = creditCard.ExpireDate
@@ -79,6 +84,7 @@ namespace MusicShopBackend.Helpers
             {
                 return new CreditCard
                 {
+                    CreditCardId = creditCardDto.CreditCardId,
                     CreditCardNumber = creditCardDto.CreditCardNumber,
                     Cvv = creditCardDto.Cvv,
                     ExpireDate = creditCardDto.ExpireDate
@@ -94,6 +100,7 @@ namespace MusicShopBackend.Helpers
             {
                 return new DestinationAddressDto
                 {
+                    DestinationAddressId = destinationAddress.DestinationAddressId,
                     City = destinationAddress.City,
                     ZipCode = destinationAddress.ZipCode,
                     Country = destinationAddress.Country,
@@ -110,6 +117,7 @@ namespace MusicShopBackend.Helpers
             {
                 return new DestinationAddress
                 {
+                    DestinationAddressId = destinationAddressDto.DestinationAddressId,
                     City = destinationAddressDto.City,
                     ZipCode = destinationAddressDto.ZipCode,
                     Country = destinationAddressDto.Country,
@@ -126,6 +134,7 @@ namespace MusicShopBackend.Helpers
             {
                 return new EmployeeDto
                 {
+                    EmployeeId = employee.EmployeeId,
                     Email = employee.Email,
                     FirstName = employee.FirstName,
                     LastName = employee.LastName,
@@ -143,6 +152,7 @@ namespace MusicShopBackend.Helpers
             {
                 return new Employee
                 {
+                    EmployeeId = employeeDto.EmployeeId,
                     Email = employeeDto.Email,
                     FirstName = employeeDto.FirstName,
                     LastName = employeeDto.LastName,
@@ -160,6 +170,7 @@ namespace MusicShopBackend.Helpers
             {
                 return new OrderDto
                 {
+                    OrderId = order.OrderId,
                     OrderArrival = order.OrderArrival,
                     OrderDate = order.OrderDate,
                     PaymentType = order.PaymentType,
@@ -179,6 +190,7 @@ namespace MusicShopBackend.Helpers
             {
                 return new Order
                 {
+                    OrderId = orderDto.OrderId,
                     OrderArrival = orderDto.OrderArrival,
                     OrderDate = orderDto.OrderDate,
                     PaymentType = orderDto.PaymentType,
@@ -227,12 +239,14 @@ namespace MusicShopBackend.Helpers
             {
                 return new ProductDto
                 {
+                    ProductId = product.ProductId,
                     ProductDescription = product.ProductDescription,
                     ProductName = product.ProductName,
                     ProductPrice = product.ProductPrice,
                     BrandId = product.BrandId,
                     CategoryId = product.CategoryId,
-                    EmployeeId = product.EmployeeId
+                    EmployeeId = product.EmployeeId,
+                    
                 };
             }
             return null;
@@ -244,6 +258,7 @@ namespace MusicShopBackend.Helpers
             {
                 return new Product
                 {
+                    ProductId = productDto.ProductId,
                     ProductDescription = productDto.ProductDescription,
                     ProductName = productDto.ProductName,
                     ProductPrice = productDto.ProductPrice,
@@ -261,6 +276,7 @@ namespace MusicShopBackend.Helpers
             {
                 return new UserDto
                 {
+                    UserId = user.UserId,
                     Email = user.Email,
                     FirstName = user.FirstName,
                     LastName = user.LastName,
@@ -276,6 +292,7 @@ namespace MusicShopBackend.Helpers
             {
                 return new User
                 {
+                    UserId = userDto.UserId,
                     Email = userDto.Email,
                     FirstName = userDto.FirstName,
                     LastName = userDto.LastName,
@@ -294,6 +311,7 @@ namespace MusicShopBackend.Helpers
             {
                 return new RoleDto
                 {
+                    RoleId = role.RoleId,
                     RoleName = role.RoleName
                 };
             }
@@ -305,7 +323,8 @@ namespace MusicShopBackend.Helpers
             if (roleDto != null)
             {
                 return new Role
-                {
+                {   
+                    RoleId = roleDto.RoleId,
                     RoleName = roleDto.RoleName
                 };
             }

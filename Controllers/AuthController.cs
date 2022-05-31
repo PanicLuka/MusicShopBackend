@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MusicShopBackend.Models;
 using MusicShopBackend.Services;
@@ -6,6 +7,8 @@ using MusicShopBackend.Services;
 namespace MusicShopBackend.Controllers
 {
     [ApiController]
+    [Produces("application/json")]
+    [Consumes("application/json")]
     [Route("api/login")]
     public class AuthController : ControllerBase
     {

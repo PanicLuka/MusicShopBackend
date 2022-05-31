@@ -25,7 +25,8 @@ namespace MusicShopBackend
 
         public void ConfigureServices(IServiceCollection services)
         {
-
+           
+          
             services.AddControllers()
                 .AddFluentValidation(s =>
                 {
@@ -86,9 +87,17 @@ namespace MusicShopBackend
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MusicShopBackend v1"));
             }
 
+
+
+            app.UseCors(opt =>
+            {
+                opt.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200");
+            });
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
 
             app.UseAuthentication();
 

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MusicShopBackend.Migrations
 {
-    public partial class MusicMigration : Migration
+    public partial class MusicShopMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -178,7 +178,7 @@ namespace MusicShopBackend.Migrations
             migrationBuilder.InsertData(
                 table: "CreditCards",
                 columns: new[] { "CreditCardId", "CreditCardNumber", "Cvv", "ExpireDate" },
-                values: new object[] { 1, "124128401", 123, new DateTime(2022, 5, 8, 19, 20, 20, 148, DateTimeKind.Local).AddTicks(7798) });
+                values: new object[] { 1, "124128401", 123, new DateTime(2022, 5, 31, 15, 6, 47, 142, DateTimeKind.Local).AddTicks(2579) });
 
             migrationBuilder.InsertData(
                 table: "DestinationAddresses",
@@ -198,7 +198,7 @@ namespace MusicShopBackend.Migrations
             migrationBuilder.InsertData(
                 table: "Orders",
                 columns: new[] { "OrderId", "CreditCardId", "DestinationAddressId", "OrderArrival", "OrderDate", "OrderStatus", "PaymentType", "UserId" },
-                values: new object[] { 1, 1, 1, true, new DateTime(2022, 5, 8, 19, 20, 20, 157, DateTimeKind.Local).AddTicks(1215), "Ready", "seedTest", 1 });
+                values: new object[] { 1, 1, 1, true, new DateTime(2022, 5, 31, 15, 6, 47, 146, DateTimeKind.Local).AddTicks(9915), "Ready", "seedTest", 1 });
 
             migrationBuilder.InsertData(
                 table: "Products",

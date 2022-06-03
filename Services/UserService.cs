@@ -103,9 +103,13 @@ namespace MusicShopBackend.Services
             else
             {
                 User user = userDto.UserDtoToUser();
+
+                user.Password = BC.HashPassword(user.Password);
+
                 oldUserDto.FirstName = user.FirstName;
                 oldUserDto.LastName = user.LastName;
                 oldUserDto.Email = user.Email;
+
                 oldUserDto.Password = user.Password;
 
 
@@ -116,6 +120,7 @@ namespace MusicShopBackend.Services
                     throw new HttpResponseException(HttpStatusCode.NotFound);
 
                 }
+
                 return oldUserDto.UserToDto();
             }
         }

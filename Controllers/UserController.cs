@@ -62,6 +62,24 @@ namespace MusicShopBackend.Controllers
             }
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("user/{email}")]
+        public  ActionResult<UserDto> GetUserByEmailAsync(string email)
+        {
+            try
+            {
+                var userDto =  _userService.GetUserByEmail(email);
+
+                return Ok(userDto);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, e.Message);
+
+            }
+        }
+
         [HttpPost]
         [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status201Created)]

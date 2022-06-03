@@ -33,7 +33,7 @@ namespace MusicShopBackend.Controllers
                 return BadRequest("Invalid client request");
             }
 
-            var savedUser = _userService.GetUserByEmail(user.Email);
+            var savedUser =  _userService.GetUserByEmail(user.Email);
 
             bool passwordVerified = _authenticateService.VerifiedPassword(user);
 

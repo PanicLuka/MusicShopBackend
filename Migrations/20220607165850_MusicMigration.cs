@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MusicShopBackend.Migrations
 {
-    public partial class MusicShopMigration : Migration
+    public partial class MusicMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -126,6 +126,7 @@ namespace MusicShopBackend.Migrations
                     ProductName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ProductPrice = table.Column<double>(type: "float", nullable: false),
                     ProductDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImgPath = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
                     BrandId = table.Column<int>(type: "int", nullable: false),
                     EmployeeId = table.Column<int>(type: "int", nullable: false)
@@ -178,7 +179,7 @@ namespace MusicShopBackend.Migrations
             migrationBuilder.InsertData(
                 table: "CreditCards",
                 columns: new[] { "CreditCardId", "CreditCardNumber", "Cvv", "ExpireDate" },
-                values: new object[] { 1, "124128401", 123, new DateTime(2022, 5, 31, 15, 6, 47, 142, DateTimeKind.Local).AddTicks(2579) });
+                values: new object[] { 1, "124128401", 123, new DateTime(2022, 6, 7, 18, 58, 48, 871, DateTimeKind.Local).AddTicks(629) });
 
             migrationBuilder.InsertData(
                 table: "DestinationAddresses",
@@ -198,12 +199,12 @@ namespace MusicShopBackend.Migrations
             migrationBuilder.InsertData(
                 table: "Orders",
                 columns: new[] { "OrderId", "CreditCardId", "DestinationAddressId", "OrderArrival", "OrderDate", "OrderStatus", "PaymentType", "UserId" },
-                values: new object[] { 1, 1, 1, true, new DateTime(2022, 5, 31, 15, 6, 47, 146, DateTimeKind.Local).AddTicks(9915), "Ready", "seedTest", 1 });
+                values: new object[] { 1, 1, 1, true, new DateTime(2022, 6, 7, 18, 58, 48, 875, DateTimeKind.Local).AddTicks(9221), "Ready", "seedTest", 1 });
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "ProductId", "BrandId", "CategoryId", "EmployeeId", "ProductDescription", "ProductName", "ProductPrice" },
-                values: new object[] { 1, 1, 1, 1, "ACoustic", "Guitar", 23.0 });
+                columns: new[] { "ProductId", "BrandId", "CategoryId", "EmployeeId", "ImgPath", "ProductDescription", "ProductName", "ProductPrice" },
+                values: new object[] { 1, 1, 1, 1, "C:/Users/lukap/source/repos/MusicShopBackend/Resources/Images/Model.jpg", "ACoustic", "Guitar", 23.0 });
 
             migrationBuilder.InsertData(
                 table: "Roles",

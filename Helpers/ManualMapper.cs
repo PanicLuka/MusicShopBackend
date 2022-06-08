@@ -243,6 +243,7 @@ namespace MusicShopBackend.Helpers
                     ProductDescription = product.ProductDescription,
                     ProductName = product.ProductName,
                     ProductPrice = product.ProductPrice,
+                    ImgPath = product.ImgPath,
                     BrandId = product.BrandId,
                     CategoryId = product.CategoryId,
                     EmployeeId = product.EmployeeId,
@@ -262,6 +263,7 @@ namespace MusicShopBackend.Helpers
                     ProductDescription = productDto.ProductDescription,
                     ProductName = productDto.ProductName,
                     ProductPrice = productDto.ProductPrice,
+                    ImgPath = productDto.ImgPath,
                     BrandId = productDto.BrandId,
                     CategoryId = productDto.CategoryId,
                     EmployeeId = productDto.EmployeeId

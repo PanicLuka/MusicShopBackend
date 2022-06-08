@@ -76,6 +76,28 @@ namespace MusicShopBackend.Services
             return PagedList<ProductDto>.ToPagedList(queryable, parameters._pageNumber, parameters.PageSize);
         }
 
+
+        public async Task<List<ProductDto>> GetAllProductsByCategory(string productCategory)
+        {
+            int categoryId = await GetCategoryIdByCategoryName(productCategory);
+
+            var products = await _context.Products.Where(e => e.CategoryId == categoryId).ToListAsync();
+
+            if (products == null || products.Count == 0)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+            List<ProductDto> productDtos = new List<ProductDto>();
+
+            foreach (var product in products)
+            {
+                ProductDto productDto = product.ProductToDto();
+                productDtos.Add(productDto);
+            }
+
+            return productDtos;
+
+        }
         public async Task<ProductDto> GetProductByIdAysnc(int productId)
         {
             var product = await _context.Products.FirstOrDefaultAsync(e => e.ProductId == productId);
@@ -116,6 +138,14 @@ namespace MusicShopBackend.Services
             }
         }
 
+        
+
+        private async Task<int> GetCategoryIdByCategoryName(string productCategory)
+        {
+            var category = await _context.Categories.FirstAsync(c => c.CategoryName == productCategory);
+            return category.CategoryId;
+        }
+
         private async Task<bool> SaveChangesAsync()
         {
             return await _context.SaveChangesAsync() > 0;
@@ -131,5 +161,7 @@ namespace MusicShopBackend.Services
 
             return product;
         }
+
+        
     }
 }

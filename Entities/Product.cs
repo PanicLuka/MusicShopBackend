@@ -9,6 +9,7 @@ namespace MusicShopBackend.Entities
         public string ProductName { get; set; }
         public double ProductPrice { get; set; }
         public string ProductDescription { get; set; }
+        public string ImgPath { get; set; }
 
         [ForeignKey("FK_CategoryId")]
         public int CategoryId { get; set; }

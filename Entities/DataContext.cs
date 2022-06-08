@@ -137,6 +137,7 @@ namespace MusicShopBackend.Entities
                      ProductName = "Guitar",
                      ProductPrice = 23.00,
                      ProductDescription = "ACoustic",
+                     ImgPath = "C:/Users/lukap/source/repos/MusicShopBackend/Resources/Images/Model.jpg",
                      CategoryId = 1,
                      EmployeeId = 1,
                      BrandId = 1

@@ -86,6 +86,17 @@ namespace MusicShopBackend.Services
             return categoryDto;
         }
 
+        public async Task<int> GetCategoryIdByCategoryName(string categoryName)
+        {
+            var category = await _context.Categories.FirstOrDefaultAsync(e => e.CategoryName == categoryName);
+            int categoryId = category.CategoryId;
+            if (categoryId.Equals(null))
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+            return categoryId;
+        }
+
         public async Task<CategoryDto> UpdateCategoryAsync(int categoryId, CategoryDto categoryDto)
         {
             var oldCategoryDto = await GetCategoryByIdHelperAsync(categoryId);
@@ -126,6 +137,6 @@ namespace MusicShopBackend.Services
             return category;
         }
 
-
+        
     }
 }

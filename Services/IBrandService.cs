@@ -13,6 +13,8 @@ namespace MusicShopBackend.Services
 
         Task<PagedList<BrandDto>> GetAllBrandsAsync(BrandParameters parameters);
 
+        Task<int> GetBrandIdByBrandName(string brandName);
+
         //Task<PagedList<BrandDto>> GetBrandsByName(string brandName);
         Task<BrandDto> GetBrandByIdAysnc(int brandId);
 

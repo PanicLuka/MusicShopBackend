@@ -24,6 +24,24 @@ namespace MusicShopBackend.Controllers
             _productService = productService;
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [HttpGet("count")]
+        public ActionResult<int> GetProductsCount()
+        {
+            try
+            {
+                var count = _productService.GetProductsCount();
+
+                return Ok(count);
+            }catch(Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+
+
+
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -42,6 +60,24 @@ namespace MusicShopBackend.Controllers
             }
         }
 
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [HttpGet("filter/{category}")]
+        public async Task<ActionResult<List<ProductDto>>> GetAllProductsByCategory(string category)
+        {
+            try
+            {
+                var productDtos = await _productService.GetAllProductsByCategory(category);
+
+                return Ok(productDtos);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status204NoContent, e.Message);
+
+            }
+        }
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("{productId}")]

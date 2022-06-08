@@ -58,6 +58,26 @@ namespace MusicShopBackend.Controllers
             }
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("brand/{brandName}")]
+        public async Task<ActionResult<int>> GetBrandIdByBrandName(string brandName)
+        {
+            try
+            {
+                var brandId = await _brandService.GetBrandIdByBrandName(brandName);
+
+                
+
+                return Ok(brandId);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, e.Message);
+
+            }
+        }
+
         [HttpPost]
         [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status201Created)]

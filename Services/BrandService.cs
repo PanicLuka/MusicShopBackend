@@ -104,6 +104,19 @@ namespace MusicShopBackend.Services
 
         }
 
+        public async Task<int> GetBrandIdByBrandName(string brandName)
+        {
+            var brand = await _context.Brands.FirstOrDefaultAsync(e => e.BrandName == brandName);
+            int brandId = brand.BrandId;
+            if (brandId.Equals(null))
+            {
+
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+
+            return brandId;
+        }
+
         public async Task<BrandDto> UpdateBrandAsync(int brandId, BrandDto brandDto)
         {
             var oldBrandDto = await GetBrandByIdHelperAsync(brandId);
@@ -143,6 +156,6 @@ namespace MusicShopBackend.Services
             return brand;
         }
 
-
+       
     }
 }

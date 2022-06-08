@@ -11,6 +11,9 @@ namespace MusicShopBackend.Services
 
         Task<PagedList<CategoryDto>> GetAllCategoriesAsync(CategoryParameters parameteres);
 
+        Task<int> GetCategoryIdByCategoryName(string categoryName);
+
+
         Task<CategoryDto> GetCategoryByIdAysnc(int categoryId);
 
         Task<CategoryDto> UpdateCategoryAsync(int ctegoryId, CategoryDto categoryDto);

@@ -58,6 +58,27 @@ namespace MusicShopBackend.Controllers
             }
         }
 
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("category/{categoryName}")]
+        public async Task<ActionResult<int>> GetCategoryIdByCategoryName(string categoryName)
+        {
+            try
+            {
+                var categoryId = await _categoryService.GetCategoryIdByCategoryName(categoryName);
+
+
+
+                return Ok(categoryId);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, e.Message);
+
+            }
+        }
+
         [HttpPost]
         [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status201Created)]

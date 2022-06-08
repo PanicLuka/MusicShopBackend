@@ -10,8 +10,8 @@ using MusicShopBackend.Entities;
 namespace MusicShopBackend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220531130648_MusicShopMigration")]
-    partial class MusicShopMigration
+    [Migration("20220607165850_MusicMigration")]
+    partial class MusicMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -95,7 +95,7 @@ namespace MusicShopBackend.Migrations
                             CreditCardId = 1,
                             CreditCardNumber = "124128401",
                             Cvv = 123,
-                            ExpireDate = new DateTime(2022, 5, 31, 15, 6, 47, 142, DateTimeKind.Local).AddTicks(2579)
+                            ExpireDate = new DateTime(2022, 6, 7, 18, 58, 48, 871, DateTimeKind.Local).AddTicks(629)
                         });
                 });
 
@@ -222,7 +222,7 @@ namespace MusicShopBackend.Migrations
                             CreditCardId = 1,
                             DestinationAddressId = 1,
                             OrderArrival = true,
-                            OrderDate = new DateTime(2022, 5, 31, 15, 6, 47, 146, DateTimeKind.Local).AddTicks(9915),
+                            OrderDate = new DateTime(2022, 6, 7, 18, 58, 48, 875, DateTimeKind.Local).AddTicks(9221),
                             OrderStatus = "Ready",
                             PaymentType = "seedTest",
                             UserId = 1
@@ -269,6 +269,9 @@ namespace MusicShopBackend.Migrations
                     b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
+                    b.Property<string>("ImgPath")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ProductDescription")
                         .HasColumnType("nvarchar(max)");
 
@@ -289,6 +292,7 @@ namespace MusicShopBackend.Migrations
                             BrandId = 1,
                             CategoryId = 1,
                             EmployeeId = 1,
+                            ImgPath = "C:/Users/lukap/source/repos/MusicShopBackend/Resources/Images/Model.jpg",
                             ProductDescription = "ACoustic",
                             ProductName = "Guitar",
                             ProductPrice = 23.0
